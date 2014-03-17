@@ -40,14 +40,14 @@ int main(int argc, char *argv[])
 
 	//printf("test\n");
 
-	file = fopen("values","r");
+	file = fopen("numbers.txt","r");
 	//printf("%p",file);
 	//scanf("%llu",&value);
 	//printf("%llu\n",value);
 
 	while(fscanf(file,"%llu",&value)!= EOF)
 	{
-		printf("%d: ",value);
+		printf("%llu: ",value);
 		print_prime_factors(value);
 		printf("\n");
 	}
@@ -77,5 +77,5 @@ void print_prime_factors(uint64_t n)
 		}
 	}
 
-	printf("%d ",n);
+	printf("%llu ",n);
 }
