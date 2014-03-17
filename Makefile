@@ -2,7 +2,7 @@
 #----------
 COMP=gcc
 EDL=gcc
-EXE=TpmThread
+EXE=TpMultiThread
 #Flags:
 CPPFLAGS=-g
 EDLFLAGS=
@@ -15,10 +15,10 @@ ECHO=@echo #pour le mode silencieux
 RM=@rm
 RMFLAGS=-f
 #
-INT=Tp_multThread.h#Mere.h Clavier.h Entree.h Sortie.h
+INT=Tp_multiThread.h#Mere.h Clavier.h Entree.h Sortie.h
 REAL=$(INT:.h=.cpp)
 OBJ=$(INT:.h=.o)
-LIBS=-lm -lpThread#-ltp -lncurses -ltcl
+LIBS=-lpthread -lm#-ltp -lncurses -ltcl
 #Clean:
 CLEAN=clean
 .PHONY:$(CLEAN)
@@ -38,7 +38,7 @@ $(EXE): $(OBJ)
 %.o : %.c
 	$(ECHO) + Compliation de $<
 	$(COMP) -c $(CPPFLAGS) $(INCPATH) $<
-Tp_multThread : Tp_multThread.c
+Tp_multiThread : Tp_multiThread.c
 
 #Nettoyage:
 #----------
