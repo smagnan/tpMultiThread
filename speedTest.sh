@@ -23,14 +23,14 @@ neutre='\e[0;m'
 
 #variables
 IGNORE=/dev/null
-TIME='/usr/bin/time -f %U'
+TIME='/usr/bin/time -f %e'
 GENERATE_NBS_EXE=generateNumbers
 GENERATE_NBS_SRC=nbr_generator.c
 NUMBERS=numbers.txt
-MAGNITUDE=64;
+MAGNITUDE=42;
 MIN_LOOP_BOUND=1
-MAX_LOOP_BOUND=10
-FACTOR_VAL=5
+MAX_LOOP_BOUND=1
+FACTOR_VAL=100
 EXE=TpMultiThread
 
 echo "RESULTS:" > results
