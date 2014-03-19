@@ -45,4 +45,4 @@ Tp_multiThread : Tp_multiThread.c
 
 $(CLEAN):
 	$(ECHO) --- NETTOYAGE ---
-	$(RM) $(RMFLAGS) $(OBJ) $(EXE) #Core 
+	$(RM) $(RMFLAGS) $(OBJ) #$(EXE) #Core 

@@ -4,7 +4,11 @@
 #include <math.h>
 #include <pthread.h>
 
+#define FALSE 0
+#define TRUE 1
+
 void print_prime_factors(uint64_t n);
+int is_prime(uint64_t p);
 
 static void *task_a (void *p_data)
 {
@@ -62,8 +66,14 @@ int main(int argc, char *argv[])
 void print_prime_factors(uint64_t n)
 {
 	int i = 0;
-
-	for(i = 2; i<n ; i++)
+	int n_initVal = n;
+	
+	// XXX NOTE: l'ajout de i<sqrt(n_initVal) permet d'obtenir un temps 
+	// d'exécution beaucoup plus court pour les cas où le nombre possède 
+	// un diviseur de très grande taille (>sqrt(n_initVal)
+	// Cela évite l'appel à is_prime(params) -> calculs redondants 
+	//printf("SQRT: %llf",sqrtl((long double)n_initVal));
+	for(i = 2; i<n && /*i<sqrt(n_initVal)*/ i<4294967296; i++) // FIXME problème pour n_initVal trop grand (64b par exemple ...) en attendant remplaçable par sqrt(2^64) = 2^32 ... pour être surs
 	{
 		while(n%i==0)
 		{
@@ -78,4 +88,21 @@ void print_prime_factors(uint64_t n)
 	}
 
 	printf("%llu ",n);
+}
+
+int is_prime(uint64_t p)
+{
+	int i = 0;
+	if(!(p%2))
+	{
+		return FALSE;
+	}
+	for(i=3;i<sqrt(p);i+=2)
+	{
+		if(!(p%i))
+		{
+			return FALSE;
+		}
+	}
+	return TRUE;
 }

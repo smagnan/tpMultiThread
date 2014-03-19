@@ -1,4 +1,8 @@
-tpMultiThread
-=============
+=======================================
+  MAGNAN Samuel
+  3IF
+  2014
+  tpMultiThread
+======================================
 
-TP multithread 3IF 2014
+

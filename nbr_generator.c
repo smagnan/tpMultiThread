@@ -13,12 +13,14 @@ int main(int argc, char *argv[])
     uint64_t *previous_numbers;
 
     // how many numbers to generate
-    int quantity = NBR_QUANTITY;
+    int quantity = NBR_QUANTITY;	//default value
+    scanf("%d",&quantity);
     if( argc > 1)
         quantity=atoi(argv[1]);
 
     // maximum magnitude of numbers, in bits (0..64)
-    int magnitude= NBR_MAGNITUDE;
+    int magnitude= NBR_MAGNITUDE;	//default value
+    scanf("%d",&magnitude);
     if( argc > 2)
         magnitude=atoi(argv[2]);
 
