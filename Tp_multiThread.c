@@ -6,28 +6,44 @@
 
 #define FALSE 0
 #define TRUE 1
+#define MODE_PRIME TWO_THREADS_JOIN
+
+enum MODE {NO_THREAD,ONE_THREAD,TWO_THREADS_JOIN};
 
 void print_prime_factors(uint64_t n);
 int is_prime(uint64_t p);
 
 static void *task_a (void *p_data)
 {
-   puts ("Hello world A");
+   	puts ("Hello world A");
 
-   (void) p_data;
-   pthread_exit( NULL);
+   	(void) p_data;
+   	pthread_exit( NULL);
 }
 
 static void *task_b (void *p_data)
 {
-   puts ("Hello world B");
+   	puts ("Hello world B");
 
-   (void) p_data;
-   pthread_exit( NULL);
+   	(void) p_data;
+   	pthread_exit( NULL);
+}
+
+static void *task_prime_factors (void *p_data)
+{
+	uint64_t value = *((int*)p_data);
+	printf("%llu: ",(value));
+        print_prime_factors(value);
+        printf("\n");
+   
+   	(void) p_data;
+   	pthread_exit( NULL);
 }
 
 int main(int argc, char *argv[])
 {
+	int mode = MODE_PRIME;
+
 	FILE * file;
 	uint64_t value;
 
@@ -35,12 +51,14 @@ int main(int argc, char *argv[])
 	int th2;
 
 	pthread_t ta;
-   pthread_t tb;
+   	pthread_t tb;
+   	pthread_t tc;
+   	pthread_t td;
 
-   puts ("main init");
+   	//puts ("main init");
 
-   th1 = pthread_create (&ta, NULL, task_a, (void*)1);
-   th2 = pthread_create (&tb, NULL, task_b, (void*)2);
+   	th1 = pthread_create (&ta, NULL, task_a, (void*)1);
+   	th2 = pthread_create (&tb, NULL, task_b, (void*)2);
 
 	//printf("test\n");
 
@@ -50,10 +68,38 @@ int main(int argc, char *argv[])
 	//printf("%llu\n",value);
 
 	while(fscanf(file,"%llu",&value)!= EOF)
-	{
-		printf("%llu: ",value);
-		print_prime_factors(value);
-		printf("\n");
+	{	
+		int break_val = 0;
+		switch(mode)
+		{
+			case NO_THREAD:
+				printf("%llu: ",value);
+				print_prime_factors(value);
+				printf("\n");
+				break;
+			case ONE_THREAD:
+                                pthread_create (&tc, NULL, task_prime_factors, &value);
+				pthread_join (tc,NULL);
+				break;
+			case TWO_THREADS_JOIN:
+				pthread_create (&tc, NULL, task_prime_factors, &value);
+				if(fscanf(file,"%llu",&value)!= EOF)
+				{
+					pthread_create (&td, NULL, task_prime_factors, &value);
+				}
+				else
+				{	
+					break_val = 1;	
+					break;
+				}
+				pthread_join (tc,NULL);
+				pthread_join (td,NULL);
+			break;
+		}
+		if(break_val == 1)
+		{
+			break;
+		}
 	}
 	/*fscanf(file,"%llu",&value);
 	printf("%d: ",value);
