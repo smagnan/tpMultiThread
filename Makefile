@@ -2,7 +2,7 @@
 #----------
 COMP=gcc
 EDL=gcc
-EXE=TpMultiThread
+EXE=B3154_Exe
 #Flags:
 CPPFLAGS=-g -O3 -Wall
 EDLFLAGS=

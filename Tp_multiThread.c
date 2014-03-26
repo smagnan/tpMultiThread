@@ -13,10 +13,10 @@
 #include <string.h>
 
 //---------------------------------------- macros et definitions
-#define FALSE 0
-#define TRUE 1
-#define MAX_FACTORS 64
-#define MODE_PRIME TWO_THREADS_JOIN
+#define FALSE 		0
+#define TRUE 		1
+#define MAX_FACTORS 	64
+#define MODE_PRIME 	TWO_THREADS_JOIN
 
 //-------------------------------------------------------- enums
 enum MODE {NO_THREAD,ONE_THREAD,TWO_THREADS_JOIN};
@@ -112,8 +112,8 @@ int main(int argc, char *argv[])
 	pthread_mutex_init(&mutex,NULL);
 
 	first_factors.next = NULL; 	// initialisation de first -> next
-	first_factors.n = -1;		// permet de savoir si on dispose d'un 1er élément ou non (-1)
-
+	first_factors.n = 0;		// permet de savoir si on dispose d'un 1er élément ou non (-1)
+	
 	//printf("test\n");
 
 	/*primeFactors_t begin;
@@ -141,8 +141,7 @@ int main(int argc, char *argv[])
 			case ONE_THREAD:
                                 pthread_create (&tc, NULL, task_prime_factors, &value);
 				pthread_join (tc,NULL);
-				break;
-			case TWO_THREADS_JOIN:
+				brea0			case TWO_THREADS_JOIN:
 				pthread_create (&tc, NULL, task_prime_factors, &value);
 				if(fscanf(file,"%llu",&value2)!= EOF)
 				{
@@ -164,7 +163,18 @@ int main(int argc, char *argv[])
 	}*/
 
 	print_factors(100000000);
-		
+	print_factors(100000000);
+	print_factors(100000000);
+	print_factors(100000000);
+	print_factors(100000000);
+	print_factors(1024);
+	print_factors(1024);
+	print_factors(1024);
+	print_factors(100000000);
+	print_factors(5555555555);
+	print_factors(5555555555);
+	print_factors(5555555555);
+	//TODO free les maillons	
 	/*pthread_create (&ta, NULL, task_worker, (void*)1);
 	pthread_create (&tb, NULL, task_worker, (void*)2);
 	pthread_join (ta,NULL);
@@ -189,35 +199,49 @@ void print_factors(uint64_t n)
 	{
 		printf(" %llu",factors[j]);
 	}
-	printf("\n");
+	printf("\n\n");
 	
 }
 
 int get_prime_factors(uint64_t n, uint64_t * dest)
 {
-	primeFactors_t current = first_factors;
-	while(current.next!=NULL) // On recherche dans ce que l'on a déjà trouvé 
+	primeFactors_t * current = &first_factors;
+	primeFactors_t * temp = &first_factors;
+
+	printf("---- START ----\n");
+	int j = 0;
+	
+	do
 	{
-		if(current.n == n)
+		current = temp;
+		printf("curr n - iter %d: %llu\n",j++,current->n);
+		if(current->n == n)
 		{
-			memcpy(dest,current.factors,sizeof(current.factors));//FIXME ??? ok ou non?
-			return current.size; //size: taille du tabeau et donc nombre de facteurs 
+			printf("-> FOUND!");
+			memcpy(dest,current->factors,sizeof(current->factors));//FIXME ??? ok ou non?
+			return current->size; //size: taille du tabeau et donc nombre de facteurs 
 		}
-		current = *(current.next); // on travaille sur le suivant
-	}
+		if(current->next!=NULL)
+		{
+			printf("(Next not NULL)");
+			temp = current->next; // on travaille sur le suivant
+		}
+	}while(current->next!=NULL); // On recherche dans ce que l'on a déjà trouvé 
 	// Si on arrive ici, c'est que l'on a parcouru toute la chaine sans trouver n
-	// printf("[n not found in previous values]\n");
-	primeFactors_t next;
-	next.n = n;
-	next.size = 0;
+	printf("[n not found in previous values]\n");
+	primeFactors_t * next;
+	current->next = (primeFactors_t *) malloc(sizeof(primeFactors_t));
+	next = current->next;
+	next->n = n;
+	next->size = 0;
 	uint64_t i = 0;
 	uint64_t n_initVal = n;
 	for(i = 2; i<n ; i++)// remplissage du tableau de factors
         {
                 while(n%i==0)
                 {
-                        next.factors[next.size] = i;
-			next.size++;
+                        next->factors[next->size] = i;
+			next->size++;
 			n /=i;
                 }
 
@@ -226,12 +250,10 @@ int get_prime_factors(uint64_t n, uint64_t * dest)
                         break; 
                 }
         }
-	next.next = NULL; // MAJ des pointeurs de maillons	
-	current.next = &next;
-	memcpy(dest,next.factors,sizeof(next.factors));
+	next->next = NULL; // MAJ des pointeurs de maillons	
+	memcpy(dest,next->factors,sizeof(next->factors));
+	return next->size;
 	
-	return next.size;
-
 	/*int i,j;
 	for(i = 0; i<factorsMap[] ;i++)
 	{
