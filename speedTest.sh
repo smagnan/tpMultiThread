@@ -27,11 +27,11 @@ TIME='/usr/bin/time -f %e'
 GENERATE_NBS_EXE=generateNumbers
 GENERATE_NBS_SRC=nbr_generator.c
 NUMBERS=numbers.txt
-MAGNITUDE=42;
+MAGNITUDE=64;
 MIN_LOOP_BOUND=1
 MAX_LOOP_BOUND=1
 FACTOR_VAL=100
-EXE=TpMultiThread
+EXE=B3154_Exe
 
 echo "RESULTS:" > results
 touch results

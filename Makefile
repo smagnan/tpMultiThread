@@ -4,8 +4,8 @@ COMP=gcc
 EDL=gcc
 EXE=B3154_Exe
 #Flags:
-CPPFLAGS=-g -O3 -Wall
-EDLFLAGS=
+CPPFLAGS=-O3 -pg -fprofile-arcs -ftest-coverage #-g -Wall
+EDLFLAGS=-pg -fprofile-arcs -ftest-coverage
 #Paths:
 INCPATH=#-I /home/samuel/Documents/TpMultiTache
 LIBPATH=#-L /home/samuel/Documents/TpMultiTache

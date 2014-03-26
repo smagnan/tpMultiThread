@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#define NBR_QUANTITY 100
-#define NBR_MAGNITUDE 64
-#define NBR_REDUNDANCY 0
+#define NBR_QUANTITY 	100
+#define NBR_MAGNITUDE	64
+#define NBR_REDUNDANCY 	40
 
 int main(int argc, char *argv[])
 {
