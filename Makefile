@@ -4,7 +4,7 @@ COMP=gcc
 EDL=gcc
 EXE=TpMultiThread
 #Flags:
-CPPFLAGS=-g
+CPPFLAGS=-g -O3 -Wall
 EDLFLAGS=
 #Paths:
 INCPATH=#-I /home/samuel/Documents/TpMultiTache
